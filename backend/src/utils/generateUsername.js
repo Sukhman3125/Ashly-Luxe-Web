@@ -1,4 +1,5 @@
 import { User } from "../models/user.model.js";
+import * as config from "../config/config.js";
 
 export const generateUniqueUsername = async (name, email) => {
     let baseUsername = (
@@ -13,8 +14,7 @@ export const generateUniqueUsername = async (name, email) => {
     }
 
     let username = baseUsername;
-
-    while (await User.exists({ username })) {
+    while (await User.exists({ username }) || config.isAdminUsername(username)) {
         username = `${baseUsername}${Math.floor(
             1000 + Math.random() * 9000
         )}`;

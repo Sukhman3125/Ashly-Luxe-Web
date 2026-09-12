@@ -18,7 +18,7 @@ export const verifyJWT = asyncHandler(async (req, res, next) => {
         config.ACCESS_TOKEN_SECRET
     );
 
-    if(decodedToken.admin === true && decodedToken.username === config.ADMIN_USERNAME) {
+    if(decodedToken.admin === true && config.isAdminUsername(decodedToken.username)) {
         req.user = decodedToken;
         return next();
     }

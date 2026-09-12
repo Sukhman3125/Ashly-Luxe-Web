@@ -18,5 +18,15 @@ export const AUTH_OTP_EXPIRY = Number(process.env.AUTH_OTP_EXPIRY);
 
 export const UPSTASH_REDIS_REST_URL = process.env.UPSTASH_REDIS_REST_URL;
 
-export const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
-export const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME?.toLowerCase();
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+
+export const isAdmin = (username, password) => {
+       return isAdminUsername(username) && password === ADMIN_PASSWORD;
+}
+export const isAdminUsername = (username) => {
+       return username.toLowerCase() === ADMIN_USERNAME;
+}
+export const getAdminUsername = () => {
+       return ADMIN_USERNAME;
+}

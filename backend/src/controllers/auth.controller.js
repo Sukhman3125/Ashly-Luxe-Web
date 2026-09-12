@@ -11,7 +11,7 @@ import * as config from "../config/config.js";
 
 const signup = asyncHandler(async (req, res) => {
     const { username, email, password } = req.body;
-    if(username === config.ADMIN_USERNAME) {
+    if(config.isAdminUsername(username)) {
         throw new ApiError(400, "Username/Email already exists");
     }
 
@@ -54,7 +54,7 @@ const verifyOtp = asyncHandler(async (req, res) => {
 
 const login = asyncHandler(async (req, res) => {
     const { emailOrUsername, password } = req.body;
-    if(emailOrUsername === config.ADMIN_USERNAME && password === config.ADMIN_PASSWORD) {
+    if(config.isAdmin(emailOrUsername, password)) {
         return res
             .status(200)
             .cookie("accessToken", adminToken(), accessTokenOptions)
@@ -62,7 +62,7 @@ const login = asyncHandler(async (req, res) => {
                 new ApiResponse(
                     200,
                     {
-                        username: config.ADMIN_USERNAME,
+                        username: config.getAdminUsername(),
                         admin: true
                     },
                     "Admin registered successfully"
@@ -91,7 +91,7 @@ const login = asyncHandler(async (req, res) => {
 const adminToken = () => {
     const token = jwt.sign(
         {
-            username: config.ADMIN_USERNAME,
+            username: config.getAdminUsername(),
             admin: true
         },
         config.ACCESS_TOKEN_SECRET,
