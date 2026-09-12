@@ -10,14 +10,8 @@ export const BUSINESS_EMAIL = process.env.BUSINESS_EMAIL;
 export const BUSINESS_EMAIL_PASSWORD = process.env.BUSINESS_EMAIL_PASSWORD;
 
 export const GOOGLE_CLIENT = {
-    WEB: {
        ID: process.env.GOOGLE_CLIENT_ID_WEB,
        SECRET: process.env.GOOGLE_CLIENT_SECRET_WEB
-    },
-    APP: {
-        ID: process.env.GOOGLE_CLIENT_ID_APP,
-        SECRET: process.env.GOOGLE_CLIENT_SECRET_APP
-    }
 };
 
 export const AUTH_OTP_EXPIRY = Number(process.env.AUTH_OTP_EXPIRY);

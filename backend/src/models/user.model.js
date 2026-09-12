@@ -60,13 +60,6 @@ const userSchema = new Schema(
             type: Date,
             default: null,
         },
-
-        starred: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: "Comic",
-            },
-        ],
     },
     {
         timestamps: true,

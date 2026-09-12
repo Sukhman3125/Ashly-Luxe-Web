@@ -9,17 +9,15 @@ import sendMail from "../utils/mailer.js";
 import signUpOtpEmail from "../Factories/signUpOtpEmail.factory.js";
 import { AUTH_OTP_EXPIRY, GOOGLE_CLIENT, REFRESH_TOKEN_SECRET } from "../config/config.js";
 
-const googleClient = {
-    web: new OAuth2Client(GOOGLE_CLIENT.WEB.ID),
-    app: new OAuth2Client(GOOGLE_CLIENT.APP.ID)
-}
+const googleClient = new OAuth2Client(GOOGLE_CLIENT.ID);
 
-const googleLogin = async ({ platformType, idToken }) => {
+
+const googleLogin = async ({ idToken }) => {
     if (!idToken) {
         throw new ApiError(400, "Google ID token is required");
     }
-    const client = platformType=="web"?googleClient.web:googleClient.app;
-    const audience = platformType=="web"?GOOGLE_CLIENT.WEB.ID:GOOGLE_CLIENT.APP.ID;
+    const client = googleClient;
+    const audience = GOOGLE_CLIENT.ID;
 
     const ticket = await client.verifyIdToken({
         idToken,

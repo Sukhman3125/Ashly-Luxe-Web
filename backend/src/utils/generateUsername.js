@@ -14,7 +14,7 @@ export const generateUniqueUsername = async (name, email) => {
 
     let username = baseUsername;
 
-    while (await User.findOne({ username })) {
+    while (await User.exists({ username })) {
         username = `${baseUsername}${Math.floor(
             1000 + Math.random() * 9000
         )}`;
