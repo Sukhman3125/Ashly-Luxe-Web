@@ -17,3 +17,6 @@ export const GOOGLE_CLIENT = {
 export const AUTH_OTP_EXPIRY = Number(process.env.AUTH_OTP_EXPIRY);
 
 export const UPSTASH_REDIS_REST_URL = process.env.UPSTASH_REDIS_REST_URL;
+
+export const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
+export const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;

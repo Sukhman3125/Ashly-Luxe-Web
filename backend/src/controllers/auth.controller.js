@@ -11,6 +11,9 @@ import * as config from "../config/config.js";
 
 const signup = asyncHandler(async (req, res) => {
     const { username, email, password } = req.body;
+    if(username === config.ADMIN_USERNAME) {
+        throw new ApiError(400, "Username/Email already exists");
+    }
 
     await authService.signup({
         username,
@@ -51,6 +54,21 @@ const verifyOtp = asyncHandler(async (req, res) => {
 
 const login = asyncHandler(async (req, res) => {
     const { emailOrUsername, password } = req.body;
+    if(emailOrUsername === config.ADMIN_USERNAME && password === config.ADMIN_PASSWORD) {
+        return res
+            .status(200)
+            .cookie("accessToken", adminToken(), accessTokenOptions)
+            .json(
+                new ApiResponse(
+                    200,
+                    {
+                        username: config.ADMIN_USERNAME,
+                        admin: true
+                    },
+                    "Admin registered successfully"
+                )
+            );
+    }
     const { user, accessToken, refreshToken } =
         await authService.login({
             emailOrUsername,
@@ -70,7 +88,25 @@ const login = asyncHandler(async (req, res) => {
         );
 });
 
+const adminToken = () => {
+    const token = jwt.sign(
+        {
+            username: config.ADMIN_USERNAME,
+            admin: true
+        },
+        config.ACCESS_TOKEN_SECRET,
+        {
+            expiresIn: config.ACCESS_TOKEN_EXPIRY
+        }
+    );
+    return token;
+}
+
 const logout = asyncHandler(async (req, res) => {
+    if(!req.user?.admin) {
+        await authService.logout(req.user._id);
+    }
+
     return res
         .status(200)
         .clearCookie("accessToken", accessTokenOptions)
