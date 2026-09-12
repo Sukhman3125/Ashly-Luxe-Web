@@ -204,8 +204,8 @@ const verifyOtp = async ({ email, otp }) => {
 const login = async ({ emailOrUsername, password }) => {
     const user = await User.findOne({
         $or: [
-            { email: emailOrUsername.toLowerCase() },
-            { username: emailOrUsername.toLowerCase() }
+            { email: emailOrUsername },
+            { username: emailOrUsername }
         ]
     });
 
