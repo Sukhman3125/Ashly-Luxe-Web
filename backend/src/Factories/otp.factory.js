@@ -1,4 +1,3 @@
-import generateHash from "../utils/hash.js";
 import crypto from "crypto";
 
 export default function generateOtp() {
